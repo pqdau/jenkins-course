@@ -4,6 +4,7 @@ job('NodeJS Docker example') {
             node / gitConfigName('DSL User')
             node / gitConfigEmail('jenkins-dsl@newtech.academy')
         }
+		branch('master')
     }
     triggers {
         scm('H/5 * * * *')
