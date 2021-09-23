@@ -6,8 +6,9 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
    stage('test') {
+	 sh 'cd ./docker-demo'
+	 sh 'pwd'
      nodejs(nodeJSInstallationName: 'NodeJs') {
-	   sh 'cd ./docker-demo'
        sh 'npm install --only=dev'
        sh 'npm test'
      }
