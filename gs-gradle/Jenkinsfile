@@ -8,7 +8,7 @@ node {
 	 sh 'rm -rf docker-demo'
 	 sh 'rm -rf job-dsl'
   }
-  def myGradleContainer = docker.image('gradle:jdk8')
+  def myGradleContainer = docker.image('gradle:jdk8-alpine')
   myGradleContainer.pull()
   stage('test') {
      myGradleContainer.inside("-u root -v ${env.HOME}/.gradle:/home/gradle/.gradle") {
