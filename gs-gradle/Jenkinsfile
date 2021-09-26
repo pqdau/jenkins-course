@@ -1,6 +1,4 @@
 node {
-  def myGradleContainer = docker.image('gradle:jdk8')
-  myGradleContainer.pull()
   stage('prep') {
     checkout scm
   }
@@ -10,9 +8,11 @@ node {
 	 sh 'rm -rf docker-demo'
 	 sh 'rm -rf job-dsl'
   }
+  def myGradleContainer = docker.image('gradle:jdk8')
+  myGradleContainer.pull()
   stage('test') {
      myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
-       sh 'cd complete && gradle test --stacktrace'
+       sh 'cd complete && gradle test --stacktrace --scan'
      }
   }
   stage('run') {
