@@ -1,0 +1,23 @@
+node {
+  def myGradleContainer = docker.image('gradle:jdk8-alpine')
+  myGradleContainer.pull()
+  stage('prep') {
+    checkout scm
+  }
+  stage('Copy resources') {
+     sh 'cp -rf gs-gradle/* .'
+	 sh 'rm -rf gs-gradle'
+	 sh 'rm -rf docker-demo'
+	 sh 'rm -rf job-dsl'
+  }
+  stage('test') {
+     myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+       sh 'cd complete && gradle test'
+     }
+  }
+  stage('run') {
+     myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+       sh 'cd complete && gradle run'
+     }
+  }
+}

@@ -9,6 +9,7 @@ node {
      sh 'cp -rf docker-demo/* .'
 	 sh 'rm -rf docker-demo'
 	 sh 'rm -rf job-dsl'
+	 sh 'rm -rf gs-gradle'
      nodejs(nodeJSInstallationName: 'NodeJs') {
        sh 'npm install --only=dev'
        sh 'npm test'

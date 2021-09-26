@@ -9,6 +9,7 @@ node {
      sh 'cp -rf docker-demo/* .'
 	 sh 'rm -rf docker-demo'
 	 sh 'rm -rf job-dsl'
+	 sh 'rm -rf gs-gradle'
    }
    stage('test') {
      def myTestContainer = docker.image('node:4.6')
