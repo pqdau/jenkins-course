@@ -1,0 +1,35 @@
+node {
+    def server = Artifactory.server('jenkinsdauphamdemo.jfrog.io')
+    def rtGradle = Artifactory.newGradleBuild()
+    def buildInfo = Artifactory.newBuildInfo()
+    stage 'Build'
+        git url: 'https://github.com/pqdau/jenkins-course.git'
+
+	
+    stage 'Artifactory configuration'
+        rtGradle.tool = 'gradle' // Tool name from Jenkins configuration
+        rtGradle.deployer repo:'gradle-dev-local',  server: server
+        rtGradle.resolver repo:'gradle-dev', server: server
+		
+		stage('Copy resources') {
+			sh 'cp -rf gs-gradle/* .'
+			sh 'rm -rf gs-gradle'
+			sh 'rm -rf docker-demo'
+			sh 'rm -rf job-dsl'
+		}
+
+        stage('Config Build Info') {
+            buildInfo.env.capture = true
+            buildInfo.env.filter.addInclude("*")
+        }
+
+        stage('Extra gradle configurations') {
+            rtGradle.usesPlugin = true // Artifactory plugin already defined in build script
+        }
+        stage('Exec Gradle') {
+            rtGradle.run rootDir: "artifactory/", buildFile: 'build.gradle', tasks: 'clean artifactoryPublish', buildInfo: buildInfo
+        }
+        stage('Publish build info') {
+            server.publishBuildInfo buildInfo
+        }
+}
