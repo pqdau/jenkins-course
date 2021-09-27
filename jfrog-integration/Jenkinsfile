@@ -3,19 +3,12 @@ node {
     def rtGradle = Artifactory.newGradleBuild()
     def buildInfo = Artifactory.newBuildInfo()
     stage 'Build'
-        git url: 'https://github.com/pqdau/jenkins-course.git'
-		stage('Copy resources') {
-			sh 'cp -rf gs-gradle/* .'
-			sh 'rm -rf gs-gradle'
-			sh 'rm -rf docker-demo'
-			sh 'rm -rf job-dsl'
-		}
-	
+        git url: 'https://github.com/wardviaene/gs-gradle.git'
+
     stage 'Artifactory configuration'
         rtGradle.tool = 'gradle' // Tool name from Jenkins configuration
-        rtGradle.deployer repo:'jenkins-gradle-dev-local', server: server
+        rtGradle.deployer repo:'jenkins-gradle-dev-local',  server: server
         rtGradle.resolver repo:'jenkins-gradle-dev', server: server
-		
 
         stage('Config Build Info') {
             buildInfo.env.capture = true
