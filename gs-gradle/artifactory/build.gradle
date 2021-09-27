@@ -46,13 +46,13 @@ publishing {
 // artifactory configuration
 buildscript {
     repositories {
-        jcenter()
-
-    }
+		maven {
+		  url "https://plugins.gradle.org/m2/"
+		}
+	}
     dependencies {
-        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.24.14"
-    }
+		classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.24.18"
+	}
 }
 
 allprojects {
