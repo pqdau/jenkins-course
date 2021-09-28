@@ -1,5 +1,5 @@
 node {
-  def server = Artifactory.server 'newtechacademy.jfrog.io'
+  def server = Artifactory.server 'jenkinsdauphamdemo.jfrog.io'
   def myGradleContainer = docker.image('gradle:jdk8-alpine')
   myGradleContainer.pull()
   stage('prep') {
@@ -26,7 +26,7 @@ node {
       "files": [
         {
           "pattern": "complete/build/libs/gs-gradle-*.jar",
-          "target": "gradle-dev-local/academy/newtech/gs-gradle/1.0/gs-gradle-1.0-docker.jar"
+          "target": "jenkins-gradle-dev-local/pqdau/jenkins-demo/gs-gradle/1.0/gs-gradle-1.0-docker.jar"
         }
      ]
     }"""
