@@ -5,6 +5,12 @@ node {
   stage('prep') {
     checkout scm
   }
+  stage('Copy resources') {
+     sh 'cp -rf gs-gradle/* .'
+	 sh 'rm -rf gs-gradle'
+	 sh 'rm -rf docker-demo'
+	 sh 'rm -rf job-dsl'
+  }
   stage('build') {
      myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
        sh 'cd complete && ./gradlew build'
