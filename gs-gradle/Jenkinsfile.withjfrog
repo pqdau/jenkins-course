@@ -12,12 +12,12 @@ node {
 	 sh 'rm -rf job-dsl'
   }
   stage('build') {
-     myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+     myGradleContainer.inside("-u root -v ${env.HOME}/.gradle:/home/gradle/.gradle") {
        sh 'cd complete && ./gradlew build'
      }
   }
   stage('test') {
-     myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+     myGradleContainer.inside("-u root -v ${env.HOME}/.gradle:/home/gradle/.gradle") {
        sh 'cd complete && ./gradlew test'
      }
   }
