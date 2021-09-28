@@ -1,4 +1,7 @@
 node {
+  def server = Artifactory.server 'jenkinsdauphamdemo.jfrog.io'
+  def myGradleContainer = docker.image('gradle:jdk8-alpine')
+  myGradleContainer.pull()
   stage('prep') {
     checkout scm
   }
@@ -8,9 +11,6 @@ node {
 	 sh 'rm -rf docker-demo'
 	 sh 'rm -rf job-dsl'
   }
-  def server = Artifactory.server 'jenkinsdauphamdemo.jfrog.io'
-  def myGradleContainer = docker.image('gradle:jdk8-alpine')
-  myGradleContainer.pull()
   stage('build') {
      myGradleContainer.inside("-u root -v ${env.HOME}/.gradle:/home/gradle/.gradle") {
        sh 'cd complete && gradle build'
